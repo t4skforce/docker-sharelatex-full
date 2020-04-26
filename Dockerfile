@@ -2,8 +2,14 @@ FROM sharelatex/sharelatex
 
 # This must be before install texlive-full
 RUN set -x \
+    && apt-get update \
+    && apt-get install -y curl \
+    #
     && tlmgr init-usertree \
     # Select closest mirror automatically: http://tug.org/texlive/doc/install-tl.html
+    #
+    && curl -fsSL https://www.preining.info/rsa.asc | tlmgr key add - \
+    # https://tex.stackexchange.com/questions/528634/tlmgr-unexpected-return-value-from-verify-checksum-5
     #
     && tlmgr --verify-repo=none update --self \
     # https://tex.stackexchange.com/questions/340964/what-do-i-need-to-install-to-make-more-packages-available-under-sharelatex

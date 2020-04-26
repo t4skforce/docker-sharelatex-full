@@ -1,6 +1,6 @@
 # Docker Sharelatex-full
 
-[![](https://images.microbadger.com/badges/image/rigon/sharelatex-full.svg)](https://microbadger.com/images/rigon/sharelatex-full "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/rigon/sharelatex-full.svg)](https://microbadger.com/images/rigon/sharelatex-full "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/t4skforce/sharelatex-full.svg)](https://microbadger.com/images/rigon/sharelatex-full "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/rigon/sharelatex-full.svg)](https://microbadger.com/images/rigon/sharelatex-full "Get your own version badge on microbadger.com")
 
 ShareLatex with all Latex packages installed by default. 
 
@@ -45,7 +45,7 @@ Since Sharelatex requires MongoDB and Redis, it is easier to setup via [docker-c
 	services:
 		sharelatex:
 		    restart: always
-		    image: rigon/sharelatex-full
+		    image: t4skforce/sharelatex-full
 		    container_name: sharelatex
 		    depends_on:
 		        - mongo
@@ -141,4 +141,6 @@ Since Sharelatex requires MongoDB and Redis, it is easier to setup via [docker-c
 	#       - /var/run/docker.sock:/tmp/docker.sock:ro
 	#       - /home/sharelatex/tmp:/etc/nginx/certs
 
+## First login
 
+See Overleaf wiki [Creating and managing users](https://github.com/overleaf/overleaf/wiki/Creating-and-managing-users)

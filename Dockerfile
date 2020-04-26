@@ -2,11 +2,16 @@ FROM sharelatex/sharelatex
 
 # This must be before install texlive-full
 RUN set -x \
+    && apt-get update \
+    && apt-get install -y p7zip-full p7zip-rar \
     && tlmgr init-usertree \
     # Select closest mirror automatically: http://tug.org/texlive/doc/install-tl.html
     #
-    && tlmgr option repository ftp://tug.org/historic/systems/texlive/$(cd /usr/local/texlive ; ls -d * | egrep '[0-9]+')/tlnet-final \
-    # Latest TeX Live repository for current installed version
+    && export TEXLIVE_YEAR=$(cd /usr/local/texlive ; ls -d * | egrep '[0-9]+') \
+    && (cd /tmp/; curl -o texlive.iso -L ftp://tug.org/historic/systems/texlive/${TEXLIVE_YEAR}/texlive.iso) \
+    && 7z x -bd -y -w/tmp/ /tmp/texlive.iso \
+    && tlmgr option repository /tmp/ \
+    # Latest TeX Live repository for 2019
     #
     && tlmgr --verify-repo=none update --self \
     # upgrade
@@ -17,7 +22,10 @@ RUN set -x \
     && luaotfload-tool -fu \
     # Remake the lualatex/fontspec cache:
     #
-    && rm -rf /usr/local/texlive/*/tlpkg/backups/*
+    && apt-get purge -y p7zip-full p7zip-rar \
+    && rm -rf /usr/local/texlive/*/tlpkg/backups/* \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/*
 
 # Install TeX Live: metapackage pulling in all components of TeX Live
 RUN set -x \

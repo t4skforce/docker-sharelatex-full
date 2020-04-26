@@ -2,22 +2,22 @@ FROM sharelatex/sharelatex
 
 # This must be before install texlive-full
 RUN set -x \
-    #
     && tlmgr init-usertree \
     # Select closest mirror automatically: http://tug.org/texlive/doc/install-tl.html
     #
-    && curl -sL -o ./update-tlmgr-latest.sh http://mirror.ctan.org/systems/texlive/tlnet/update-tlmgr-latest.sh \
-    && chmod +x ./update-tlmgr-latest.sh \
-    && ./update-tlmgr-latest.sh --quiet -- --upgrade \
-    && rm ./update-tlmgr-latest.sh \
-    && tlmgr update --self --all \
+    && tlmgr option repository ftp://tug.org/historic/systems/texlive/$(cd /usr/local/texlive ; ls -d * | egrep '[0-9]+')/tlnet-final \
+    # Latest TeX Live repository for current installed version
+    #
+    && tlmgr --verify-repo=none update --self \
     # upgrade
     #
-    && tlmgr install scheme-full \
+    && tlmgr --verify-repo=none install scheme-full \
     # https://tex.stackexchange.com/questions/340964/what-do-i-need-to-install-to-make-more-packages-available-under-sharelatex
     #
-    && luaotfload-tool -fu
-    #Remake the lualatex/fontspec cache
+    && luaotfload-tool -fu \
+    # Remake the lualatex/fontspec cache:
+    #
+    && rm -rf /usr/local/texlive/*/tlpkg/backups/*
 
 # Install TeX Live: metapackage pulling in all components of TeX Live
 RUN set -x \

@@ -1,6 +1,6 @@
 # Docker Sharelatex-full
 
-[![](https://images.microbadger.com/badges/image/t4skforce/sharelatex-full.svg)](https://microbadger.com/images/rigon/sharelatex-full "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/rigon/sharelatex-full.svg)](https://microbadger.com/images/rigon/sharelatex-full "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/t4skforce/sharelatex-full.svg)](https://microbadger.com/images/rigon/sharelatex-full "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/t4skforce/sharelatex-full.svg)](https://microbadger.com/images/rigon/sharelatex-full "Get your own version badge on microbadger.com")
 
 ShareLatex with all Latex packages installed by default. 
 
@@ -19,7 +19,7 @@ TeX Live repositories are pretty slow, you can [clone it locally](https://www.tu
 
     wget -c --mirror --no-parent ftp://tug.org/historic/systems/texlive/2017/tlnet-final/
 
-Or download the ISO image and extract: [ftp://tug.org/historic/systems/texlive/2017/texlive.iso](ftp://tug.org/historic/systems/texlive/2017/texlive.iso)
+Or download the ISO image and extract: [ftp://tug.org/historic/systems/texlive/2019/texlive.iso](ftp://tug.org/historic/systems/texlive/2019/texlive.iso)
 
 Then, build the image with local repository. You have to dit `Dockerfile` to use local instance of nginx:
 

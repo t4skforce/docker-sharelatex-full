@@ -6,13 +6,7 @@ RUN set -x \
     # Select closest mirror automatically: http://tug.org/texlive/doc/install-tl.html
     #
     # Latest TeX Live repository
-    #&& tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet/ \
-    #
-    # 2017 TeX Live repository
-    && tlmgr option repository ftp://tug.org/historic/systems/texlive/2017/tlnet-final \
-    #
-    # From local TeX Live repository
-    #&& tlmgr option repository http://nginx/ \
+    && tlmgr option repository http://mirror.ctan.org/systems/texlive/tlnet \
     #
     && tlmgr update --self \
     # https://tex.stackexchange.com/questions/340964/what-do-i-need-to-install-to-make-more-packages-available-under-sharelatex

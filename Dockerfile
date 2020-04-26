@@ -11,7 +11,7 @@ RUN set -x \
     && curl -fsSL https://www.preining.info/rsa.asc | tlmgr key add - \
     # https://tex.stackexchange.com/questions/528634/tlmgr-unexpected-return-value-from-verify-checksum-5
     #
-    && tlmgr --verify-repo=none update --self \
+    && tlmgr update --self \
     # https://tex.stackexchange.com/questions/340964/what-do-i-need-to-install-to-make-more-packages-available-under-sharelatex
     && tlmgr install scheme-full
 

@@ -1,5 +1,11 @@
 FROM sharelatex/sharelatex
 
+# Upgrade System
+RUN set -x \
+    && apt-get update \
+    && apt-get  upgrade -y \
+    && rm -rf /var/lib/apt/lists/*
+
 # Install TeX Live: metapackage pulling in all components of TeX Live
 RUN set -x \
     && apt-get update \

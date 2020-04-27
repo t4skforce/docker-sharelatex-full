@@ -9,7 +9,8 @@ services:
       depends_on:
           - mongo
           - redis
-      privileged: true
+      # Server Pro 
+      #privileged: true
       ports:
           - 80:80
       links:

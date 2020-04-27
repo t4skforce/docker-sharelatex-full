@@ -4,8 +4,8 @@ services:
   sharelatex:
       restart: always
       image: t4skforce/sharelatex-full:latest
-      build: .
       container_name: sharelatex
+      build: .
       depends_on:
           - mongo
           - redis
@@ -16,13 +16,30 @@ services:
           - mongo
           - redis
       volumes:
-          - ~/sharelatex_data:/var/lib/sharelatex
+          - sharelatex-data:/var/lib/sharelatex
       environment:
+          SHARELATEX_APP_NAME: Overleaf Community Edition
+
           SHARELATEX_MONGO_URL: mongodb://mongo/sharelatex
+
+          # Same property, unfortunately with different names in
+          # different locations
           SHARELATEX_REDIS_HOST: redis
-          SHARELATEX_APP_NAME: Our ShareLaTeX
-          
-          #Set for SSL via nginx-proxy
+          REDIS_HOST: redis
+
+          ENABLED_LINKED_FILE_TYPES: 'url,project_file'
+
+          # Enables Thumbnail generation using ImageMagick
+          ENABLE_CONVERSIONS: 'true'
+
+          # Disables email confirmation requirement
+          EMAIL_CONFIRMATION_DISABLED: 'true'
+
+          # temporary fix for LuaLaTex compiles
+          # see https://github.com/overleaf/overleaf/issues/695
+          TEXMFVAR: /var/lib/sharelatex/tmp/texmf-var
+
+          ## Set for SSL via nginx-proxy
           #VIRTUAL_HOST: 103.112.212.22
 
           # SHARELATEX_SITE_URL: http://sharelatex.mydomain.com
@@ -35,14 +52,14 @@ services:
 
           # SHARELATEX_EMAIL_FROM_ADDRESS: "team@sharelatex.com"
 
-          # SHARELATEX_EMAIL_AWS_SES_ACCESS_KEY_ID: 
-          # SHARELATEX_EMAIL_AWS_SES_SECRET_KEY: 
+          # SHARELATEX_EMAIL_AWS_SES_ACCESS_KEY_ID:
+          # SHARELATEX_EMAIL_AWS_SES_SECRET_KEY:
 
           # SHARELATEX_EMAIL_SMTP_HOST: smtp.mydomain.com
           # SHARELATEX_EMAIL_SMTP_PORT: 587
           # SHARELATEX_EMAIL_SMTP_SECURE: false
-          # SHARELATEX_EMAIL_SMTP_USER: 
-          # SHARELATEX_EMAIL_SMTP_PASS: 
+          # SHARELATEX_EMAIL_SMTP_USER:
+          # SHARELATEX_EMAIL_SMTP_PASS:
           # SHARELATEX_EMAIL_SMTP_TLS_REJECT_UNAUTH: true
           # SHARELATEX_EMAIL_SMTP_IGNORE_TLS: false
           # SHARELATEX_CUSTOM_EMAIL_FOOTER: "<div>This system is run by department x </div>"
@@ -51,24 +68,28 @@ services:
           ## Server Pro ##
           ################
 
-          # SANDBOXED_COMPILES:true
+          # SANDBOXED_COMPILES: 'true'
 
-          # SHARELATEX_LDAP_HOST: 'ldap://ldap.forumsys.com' 
-          # SHARELATEX_LDAP_DN: 'uid=:userKey,dc=example,dc=com' 
-          # SHARELATEX_LDAP_BASE_SEARCH: 'dc=example,dc=com'
-          # SHARELATEX_LDAP_FILTER: '(uid=:userKey)'
-          # SHARELATEX_LDAP_ADMIN_DN: 'cn=read-only-admin,dc=example,dc=com' 
-          # SHARELATEX_LDAP_ADMIN_PW: password'
-          # SHARELATEX_LDAP_ANONYMOUS: "false"
-          # SHARELATEX_LDAP_EMAIL_ATT: "mail"
-          # SHARELATEX_LDAP_NAME_ATT: "name"
-          # SHARELATEX_LDAP_LAST_NAME_ATT: "secondname"
-          # SHARELATEX_LDAP_PLACEHOLDER: "Username"
-          # SHARELATEX_LDAP_TLS: "true"
-          # SHARELATEX_LDAP_TLS_OPTS_REJECT_UNAUTH:
-          # SHARELATEX_LDAP_TLS_OPTS_CA_PATH: '["/var/one.pem", "/var/two.pem"]'
+          # SANDBOXED_COMPILES_SIBLING_CONTAINERS: 'true'
+          # SANDBOXED_COMPILES_HOST_DIR: '/var/sharelatex_data/data/compiles'
+          # SYNCTEX_BIN_HOST_PATH: '/var/sharelatex_data/bin/synctex'
+
+          # DOCKER_RUNNER: 'false'
+
+          ## Works with test LDAP server shown at bottom of docker compose
+          # SHARELATEX_LDAP_URL: 'ldap://ldap:389'
+          # SHARELATEX_LDAP_SEARCH_BASE: 'ou=people,dc=planetexpress,dc=com'
+          # SHARELATEX_LDAP_SEARCH_FILTER: '(uid={{username}})'
+          # SHARELATEX_LDAP_BIND_DN: 'cn=admin,dc=planetexpress,dc=com'
+          # SHARELATEX_LDAP_BIND_CREDENTIALS: 'GoodNewsEveryone'
+          # SHARELATEX_LDAP_EMAIL_ATT: 'mail'
+          # SHARELATEX_LDAP_NAME_ATT: 'cn'
+          # SHARELATEX_LDAP_LAST_NAME_ATT: 'sn'
+          # SHARELATEX_LDAP_UPDATE_USER_DETAILS_ON_LOGIN: 'true'
 
           # SHARELATEX_TEMPLATES_USER_ID: "578773160210479700917ee5"
+          # SHARELATEX_NEW_PROJECT_TEMPLATE_LINKS: '[ {"name":"All Templates","url":"/templates/all"}]'
+
 
           # SHARELATEX_PROXY_LEARN: "true"
 
@@ -77,27 +98,21 @@ services:
       image: mongo
       container_name: mongo
       expose:
-          - 27017
+            - 27017
       volumes:
-          - ~/mongo_data:/data/db
+          - mongo-data:/data/db
 
   redis:
       restart: always
       image: redis
       container_name: redis
       expose:
-          - 6379
+            - 6379
       volumes:
-          - ~/redis_data:/data
-          
-# nginx-proxy:
-#     image: jwilder/nginx-proxy
-#     container_name: nginx-proxy
-#     ports:
-#       #- "80:80"
-#       - "443:443"
-#     volumes:
-#       - /var/run/docker.sock:/tmp/docker.sock:ro
-#       - /home/sharelatex/tmp:/etc/nginx/certs
+          - redis-data:/data
 
 
+volumes:
+  sharelatex-data:
+  mongo-data:
+  redis-data:

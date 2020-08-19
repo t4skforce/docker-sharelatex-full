@@ -28,3 +28,7 @@ RUN set -x \
 # https://github.com/sharelatex/sharelatex-docker-image/issues/45#issuecomment-247809588
 RUN set -x \
     && sed -i 's/concat(\[\"-pdf\",/concat(\[\"-pdf\",\"-shell-escape\",/g' /var/www/sharelatex/clsi/app/js/LatexRunner.js
+    
+# workaround https://github.com/overleaf/overleaf/issues/767
+RUN set -x \
+    && cd /var/www/sharelatex/web/ && npm install i18next-fs-backend

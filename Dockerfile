@@ -1,5 +1,7 @@
 FROM sharelatex/sharelatex
 
+ARG BUILD_DATE=""
+
 # Upgrade System
 RUN set -x \
     && apt-get update \

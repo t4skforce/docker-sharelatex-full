@@ -1,6 +1,6 @@
 FROM sharelatex/sharelatex
 
-ARG BUILD_DATE=""
+ARG BUILD_DATE="20211004"
 
 # Upgrade System
 RUN set -x \

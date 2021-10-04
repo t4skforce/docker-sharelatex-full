@@ -42,5 +42,5 @@ jobs:
         with:
           push: true
           tags: |
-            t4skforce/docker-sharelatex-full:latest
+            t4skforce/sharelatex-full:latest
             ghcr.io/t4skforce/docker-sharelatex-full:latest

@@ -4,7 +4,7 @@ ARG BUILD_DATE="20211005"
 ARG VERSION=""
 
 RUN set -xe \
-    && apt-get update || apt update ca-certificates && apt-get update \
+    && apt-get update || apt-get --only-upgrade install ca-certificates -y && apt-get update \
     && apt-get  upgrade -y \
     && apt-get install -y texlive-full xzdec python-pygments aspell aspell-* \
     # -shell-escape is required by minted

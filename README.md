@@ -38,7 +38,7 @@ The default for the overlay config metacopy was switched from N to Y in kernel 4
 This image can be used in the same way as the official image.
 
 Since Sharelatex requires MongoDB and Redis, it is easier to setup via [docker-compose](https://github.com/sharelatex/sharelatex/blob/master/docker-compose.yml)
-(just the sharelatex image needs to be changed to [t4skforce/sharelatex-full](https://hub.docker.com/r/rigon/sharelatex-full/)):
+(just the sharelatex image needs to be changed to [t4skforce/sharelatex-full](https://hub.docker.com/r/t4skforce/sharelatex-full/)):
 
 ## First login
 

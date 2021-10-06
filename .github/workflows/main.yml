@@ -35,6 +35,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - 
+        name: Extract branch name
+        run: echo "RELEASE_VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
       -
         name: Build and push
         id: docker_build
@@ -43,4 +46,6 @@ jobs:
           push: true
           tags: |
             t4skforce/sharelatex-full:latest
+            t4skforce/sharelatex-full:${{ env.RELEASE_VERSION }}
             ghcr.io/t4skforce/docker-sharelatex-full:latest
+            ghcr.io/t4skforce/docker-sharelatex-full:${{ env.RELEASE_VERSION }}

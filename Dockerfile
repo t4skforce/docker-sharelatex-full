@@ -1,6 +1,6 @@
 FROM sharelatex/sharelatex
 
-ARG BUILD_DATE="20211005"
+ARG BUILD_DATE="2021-10-06T13:56:24Z"
 ARG VERSION=""
 
 RUN set -xe \

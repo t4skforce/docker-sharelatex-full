@@ -2,8 +2,8 @@ name: docker-build-push
 
 on:
   push:
-    branches:
-      - master
+    tags-ignore:
+      - 'latest'
 
 jobs:
   docker:

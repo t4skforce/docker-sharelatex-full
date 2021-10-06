@@ -1,7 +1,7 @@
 FROM sharelatex/sharelatex
 
 ARG BUILD_DATE="2021-10-06T13:56:24Z"
-ARG VERSION=""
+ARG VERSION="2.7.1"
 
 RUN set -xe \
     && apt-get update -qqy || apt-get --only-upgrade install ca-certificates -y && apt-get update -qqy \

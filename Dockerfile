@@ -1,36 +1,30 @@
 FROM sharelatex/sharelatex
 
 ARG BUILD_DATE="20211005"
+ARG VERSION=""
 
-# Upgrade System
-RUN set -x \
-    && apt-get update \
+RUN set -xe \
+    && apt-get update || apt update ca-certificates -y && apt-get update \
     && apt-get  upgrade -y \
+    && apt-get install -y texlive-full xzdec python-pygments aspell aspell-* \
+    # -shell-escape is required by minted
+    # https://github.com/sharelatex/sharelatex-docker-image/issues/45#issuecomment-247809588
+    && sed -i 's/concat(\[\"-pdf\",/concat(\[\"-pdf\",\"-shell-escape\",/g' /var/www/sharelatex/clsi/app/js/LatexRunner.js \
+    # workaround https://github.com/overleaf/overleaf/issues/767
+    && cd /var/www/sharelatex/web/ && npm install i18next-fs-backend \
     && rm -rf /var/lib/apt/lists/*
 
-# Install TeX Live: metapackage pulling in all components of TeX Live
-RUN set -x \
-    && apt-get update \
-    && apt-get install -y texlive-full \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Pygments for minted
-RUN set -x \
-    && apt-get update \
-    && apt-get install -y xzdec python-pygments \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install all spellchecking languages
-RUN set -x \
-    && apt-get update \
-    && apt-get install -y aspell aspell-* \
-    && rm -rf /var/lib/apt/lists/*
-
-# -shell-escape is required by minted
-# https://github.com/sharelatex/sharelatex-docker-image/issues/45#issuecomment-247809588
-RUN set -x \
-    && sed -i 's/concat(\[\"-pdf\",/concat(\[\"-pdf\",\"-shell-escape\",/g' /var/www/sharelatex/clsi/app/js/LatexRunner.js
-    
-# workaround https://github.com/overleaf/overleaf/issues/767
-RUN set -x \
-    && cd /var/www/sharelatex/web/ && npm install i18next-fs-backend
+# Basic build-time metadata as defined at http://label-schema.org
+LABEL org.label-schema.schema-version=1.0 \
+    org.label-schema.build-date=${BUILD_DATE} \
+    org.label-schema.docker.dockerfile="/Dockerfile" \
+    org.label-schema.license="AGPL-3.0 License" \
+    org.label-schema.name="docker-sharelatex-full" \
+    org.label-schema.vendor="t4skforce" \
+    org.label-schema.version="Overleaf v${VERSION}" \
+    org.label-schema.description="An open-source online real-time collaborative LaTeX editor." \
+    org.label-schema.url="https://github.com/t4skforce/nextcloud-full" \
+    org.label-schema.vcs-type="Git" \
+    org.label-schema.vcs-url="https://github.com/t4skforce/docker-sharelatex-full.git" \
+    maintainer="t4skforce" \
+    Author="t4skforce"

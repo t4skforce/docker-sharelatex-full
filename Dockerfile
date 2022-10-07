@@ -7,10 +7,6 @@ RUN set -xe \
     && apt-get update -qqy || apt-get --only-upgrade install ca-certificates -y && apt-get update -qqy \
     && apt-get  upgrade -y \
     && apt-get install -y texlive-full xzdec python-pygments aspell aspell-* \
-    # -shell-escape is required by minted
-    # https://github.com/sharelatex/sharelatex-docker-image/issues/45#issuecomment-247809588
-    && sed -i 's/concat(\[\"-pdf\",/concat(\[\"-pdf\",\"-shell-escape\",/g' /var/www/sharelatex/clsi/app/js/LatexRunner.js \
-    # workaround https://github.com/overleaf/overleaf/issues/767
     && cd /var/www/sharelatex/web/ && npm install i18next-fs-backend \
     && rm -rf /var/lib/apt/lists/*
 

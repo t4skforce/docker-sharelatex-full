@@ -7,7 +7,6 @@ RUN set -xe \
     && apt-get update -qqy || apt-get --only-upgrade install ca-certificates -y && apt-get update -qqy \
     && apt-get  upgrade -y \
     && apt-get install -y texlive-full xzdec python-pygments aspell aspell-* \
-    && cd /var/www/sharelatex/web/ && npm install i18next-fs-backend \
     && rm -rf /var/lib/apt/lists/*
 
 # Basic build-time metadata as defined at http://label-schema.org

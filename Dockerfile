@@ -1,5 +1,5 @@
 ARG BUILD_DATE="2023-02-07T07:14:15Z"
-ARG VERSION="3.4.0"
+ARG VERSION="3.5.0"
 
 FROM sharelatex/sharelatex:${VERSION}
 
